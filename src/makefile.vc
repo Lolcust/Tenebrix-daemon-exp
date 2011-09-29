@@ -120,6 +120,8 @@ obj\nogui\script.obj: $(HEADERS)
 
 obj\nogui\db.obj: $(HEADERS)
 
+obj/nogui/scrypt.o: scrypt.c gcc -c -o $@ $^
+
 obj\nogui\net.obj: $(HEADERS)
 
 obj\nogui\irc.obj: $(HEADERS)

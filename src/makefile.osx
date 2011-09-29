@@ -73,7 +73,9 @@ cryptopp/obj/%.o: cryptopp/%.cpp
 bitcoin: $(OBJS) obj/ui.o obj/uibase.o
 	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
-
+obj/nogui/scrypt.o: scrypt.c
+	gcc -c -o $@ $^
+	
 obj/nogui/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CFLAGS) -o $@ $<
 

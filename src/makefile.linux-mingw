@@ -85,6 +85,8 @@ obj/ui_res.o: ../share/ui.rc  ../share/pixmaps/bitcoin.ico ../share/pixmaps/chec
 bitcoin.exe: $(OBJS) obj/ui.o obj/uibase.o obj/ui_res.o
 	i586-mingw32msvc-g++ $(CFLAGS) -mwindows -Wl,--subsystem,windows -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
+obj/nogui/scrypt.o: scrypt.c
+	gcc -c -o $@ $^
 
 obj/nogui/%.o: %.cpp $(HEADERS)
 	i586-mingw32msvc-g++ -c $(CFLAGS) -o $@ $<
