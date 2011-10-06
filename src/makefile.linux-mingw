@@ -36,7 +36,7 @@ CFLAGS=-O2 -w -Wno-invalid-offsetof -Wformat $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATH
 HEADERS=headers.h strlcpy.h serialize.h uint256.h util.h key.h bignum.h base58.h \
     script.h scrypt.h db.h net.h irc.h keystore.h main.h wallet.h rpc.h uibase.h ui.h noui.h init.h
 
-bitcoin.exe: USE_UPNP:=1
+tenebrix.exe: USE_UPNP:=1
 	ifdef USE_UPNP
 		INCLUDEPATHS += -I"$(DEPSDIR)/upnpc-exe-win32-20110215"
 		LIBPATHS += -L"$(DEPSDIR)/upnpc-exe-win32-20110215"
@@ -44,7 +44,7 @@ bitcoin.exe: USE_UPNP:=1
 		DEFS += -DSTATICLIB -DUSE_UPNP=$(USE_UPNP)
 	endif
 
-bitcoind.exe: USE_UPNP:=0
+tenebrixd.exe: USE_UPNP:=0
 	ifdef USE_UPNP
 		INCLUDEPATHS += -I"$(DEPSDIR)/upnpc-exe-win32-20110215"
 		LIBPATHS += -L"$(DEPSDIR)/upnpc-exe-win32-20110215"
@@ -70,7 +70,7 @@ OBJS= \
     cryptopp/obj/cpu.o
 
 
-all: bitcoin.exe
+all: tenebrix.exe
 
 
 obj/%.o: %.cpp $(HEADERS)
@@ -82,7 +82,7 @@ cryptopp/obj/%.o: cryptopp/%.cpp
 obj/ui_res.o: ../share/ui.rc  ../share/pixmaps/bitcoin.ico ../share/pixmaps/check.ico ../share/pixmaps/send16.bmp ../share/pixmaps/send16mask.bmp ../share/pixmaps/send16masknoshadow.bmp ../share/pixmaps/send20.bmp ../share/pixmaps/send20mask.bmp ../share/pixmaps/addressbook16.bmp ../share/pixmaps/addressbook16mask.bmp ../share/pixmaps/addressbook20.bmp ../share/pixmaps/addressbook20mask.bmp
 	i586-mingw32msvc-windres $(DEFS) $(INCLUDEPATHS) -o $@ -i $<
 
-bitcoin.exe: $(OBJS) obj/ui.o obj/uibase.o obj/ui_res.o
+tenebrix.exe: $(OBJS) obj/ui.o obj/uibase.o obj/ui_res.o
 	i586-mingw32msvc-g++ $(CFLAGS) -mwindows -Wl,--subsystem,windows -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
 obj/nogui/scrypt.o: scrypt.c
@@ -91,7 +91,7 @@ obj/nogui/scrypt.o: scrypt.c
 obj/nogui/%.o: %.cpp $(HEADERS)
 	i586-mingw32msvc-g++ -c $(CFLAGS) -o $@ $<
 
-bitcoind.exe: $(OBJS:obj/%=obj/nogui/%) obj/ui_res.o
+tenebrixd.exe: $(OBJS:obj/%=obj/nogui/%) obj/ui_res.o
 	i586-mingw32msvc-g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 
@@ -109,6 +109,6 @@ clean:
 	-rm -f cryptopp/obj/*.o
 	-rm -f test/*.o
 	-rm -f headers.h.gch
-	-rm -f bitcoin.exe
-	-rm -f bitcoind.exe
-	-rm -f test_bitcoin.exe
+	-rm -f tenebrix.exe
+	-rm -f tenebrixd.exe
+	-rm -f test_tenebrix.exe

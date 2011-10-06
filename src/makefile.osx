@@ -48,20 +48,20 @@ OBJS= \
     cryptopp/obj/sha.o \
     cryptopp/obj/cpu.o
 
-bitcoin: USE_UPNP:=1
+tenebrix: USE_UPNP:=1
 	ifdef USE_UPNP
 		LIBS += $(DEPSDIR)/lib/libminiupnpc.a
 		DEFS += -DUSE_UPNP=$(USE_UPNP)
 	endif
 
-bitcoind: USE_UPNP:=0
+tenebrixd: USE_UPNP:=0
 	ifdef USE_UPNP
 		LIBS += $(DEPSDIR)/lib/libminiupnpc.a
 		DEFS += -DUSE_UPNP=$(USE_UPNP)
 	endif
 	
 
-all: bitcoin
+all: tenebrix
 
 
 obj/%.o: %.cpp $(HEADERS)
@@ -70,7 +70,7 @@ obj/%.o: %.cpp $(HEADERS)
 cryptopp/obj/%.o: cryptopp/%.cpp
 	$(CXX) -c $(CFLAGS) -O3 -DCRYPTOPP_DISABLE_ASM -o $@ $<
 
-bitcoin: $(OBJS) obj/ui.o obj/uibase.o
+tenebrix: $(OBJS) obj/ui.o obj/uibase.o
 	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(WXLIBS) $(LIBS)
 
 obj/nogui/scrypt.o: scrypt.c
@@ -79,7 +79,7 @@ obj/nogui/scrypt.o: scrypt.c
 obj/nogui/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CFLAGS) -o $@ $<
 
-bitcoind: $(OBJS:obj/%=obj/nogui/%)
+tenebrixd: $(OBJS:obj/%=obj/nogui/%)
 	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 obj/test/%.o: test/%.cpp $(HEADERS)
@@ -89,7 +89,7 @@ test_bitcoin: obj/test/test_bitcoin.o
 	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS) -lboost_unit_test_framework
 
 clean:
-	-rm -f bitcoin bitcoind test_bitcoin
+	-rm -f tenebrix tenebrixd test_bitcoin
 	-rm -f obj/*.o
 	-rm -f obj/nogui/*.o
 	-rm -f obj/test/*.o
